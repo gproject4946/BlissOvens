@@ -114,6 +114,9 @@ class SheetsClient {
     let credentials;
     try {
       credentials = JSON.parse(rawCreds);
+      if (credentials.private_key) {
+        credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
+      }
     } catch (e) {
       throw new Error('GOOGLE_CREDENTIALS is not valid JSON. Check your .env file.');
     }
