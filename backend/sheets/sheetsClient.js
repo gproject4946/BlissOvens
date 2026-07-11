@@ -127,6 +127,8 @@ class SheetsClient {
         console.log('❌  [Debug] private_key field is missing or empty in JSON!');
       }
     } catch (e) {
+      console.error('❌  [Debug] JSON.parse failed:', e.message);
+      console.error('📋  [Debug] Value starts with:', rawCreds ? rawCreds.trim().substring(0, 40) : 'empty');
       throw new Error('GOOGLE_CREDENTIALS is not valid JSON. Check your .env file.');
     }
 
