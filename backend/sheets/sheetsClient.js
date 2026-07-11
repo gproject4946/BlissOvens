@@ -115,7 +115,16 @@ class SheetsClient {
     try {
       credentials = JSON.parse(rawCreds);
       if (credentials.private_key) {
+        // Safe non-sensitive debugging logs to find formatting issues
+        console.log('🔑  [Debug] Key length:', credentials.private_key.length);
+        console.log('🔑  [Debug] Key starts with header:', credentials.private_key.trim().startsWith('-----BEGIN PRIVATE KEY-----'));
+        console.log('🔑  [Debug] Key ends with header:', credentials.private_key.trim().endsWith('-----END PRIVATE KEY-----'));
+        console.log('🔑  [Debug] Key contains actual newlines:', credentials.private_key.includes('\n'));
+        console.log('🔑  [Debug] Key contains escaped newlines (\\n):', credentials.private_key.includes('\\n'));
+        
         credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
+      } else {
+        console.log('❌  [Debug] private_key field is missing or empty in JSON!');
       }
     } catch (e) {
       throw new Error('GOOGLE_CREDENTIALS is not valid JSON. Check your .env file.');
